@@ -66,13 +66,6 @@ dependencies {
     detektPlugins(files("\$rootDir/config/detekt/MyCustomRule.jar"))
 
 
-    File customDetektPlugin = new File("$rootDir/config/detekt/MyCustomRule.jar")
-    if (customDetektPlugin.exists()) {
-        println "The file ${customDetektPlugin.absolutePath} exists."
-    } else {
-        println "The file ${customDetektPlugin.absolutePath} does not exist."
-    }
-
 
 
 
@@ -85,6 +78,9 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
+
 
 compileKotlin {
     kotlinOptions {
@@ -112,6 +108,8 @@ allprojects{
         mavenCentral()
     }
 
+
+
     afterEvaluate {
         plugins.apply("io.gitlab.arturbosch.detekt")
         dependencies {
@@ -127,6 +125,8 @@ allprojects{
                 txt.required.set(false)
                 md.required.set(false)
                 html.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt/report.html"))
+                xml.required.set(true)
+                xml.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt.xml"))
             }
         }
 
@@ -137,12 +137,5 @@ allprojects{
 
 }
 
-
-tasks.detekt.configure {
-    reports {
-        xml.required.set(true)
-        xml.outputLocation.set(file("build/reports/detekt.xml"))
-    }
-}
 
 
