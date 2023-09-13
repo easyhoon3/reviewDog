@@ -1,6 +1,5 @@
 name: run detekt
-on:
-  pull_request:
+on: [pull_request]
 
 jobs:
   detekt:

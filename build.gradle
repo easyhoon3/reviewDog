@@ -120,12 +120,6 @@ allprojects{
         def detektTaskProvider = tasks.named("detekt")
         detektTaskProvider.configure {
             reports {
-                html.required.set(true)
-                sarif.required.set(false)
-                xml.required.set(false)
-                txt.required.set(false)
-                md.required.set(false)
-                html.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt/report.html"))
                 xml.required.set(true)
                 xml.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt/detekt.xml"))
             }
