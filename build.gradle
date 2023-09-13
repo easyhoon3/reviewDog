@@ -126,7 +126,7 @@ allprojects{
                 md.required.set(false)
                 html.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt/report.html"))
                 xml.required.set(true)
-                xml.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt.xml"))
+                xml.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt/detekt.xml"))
             }
         }
 
