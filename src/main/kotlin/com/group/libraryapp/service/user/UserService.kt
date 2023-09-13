@@ -24,6 +24,12 @@ class UserService(
     userRepository.save(newUser)
   }
 
+  @Transactional
+  fun saveUser_123(request: UserCreateRequest) {
+    val newUser = User(request.name, request.age)
+    userRepository.save(newUser)
+  }
+
   @Transactional(readOnly = true)
   fun getUsers(): List<UserResponse> {
     return userRepository.findAll()
