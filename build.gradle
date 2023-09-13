@@ -118,12 +118,6 @@ allprojects{
         }
 
         def detektTaskProvider = tasks.named("detekt")
-        detektTaskProvider.configure {
-            reports {
-                xml.required.set(true)
-                xml.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt/detekt.xml"))
-            }
-        }
 
         if (project.name == "rules") return
         tasks.getByName("compileKotlin").finalizedBy(detektTaskProvider)
@@ -132,5 +126,10 @@ allprojects{
 
 }
 
-
+tasks.named('detekt').configure {
+    reports {
+        xml.required.set(true)
+        xml.outputLocation.set(file("build/reports/detekt/detekt.xml"))
+    }
+}
 
