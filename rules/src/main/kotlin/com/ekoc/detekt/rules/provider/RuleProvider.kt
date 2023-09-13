@@ -9,7 +9,7 @@ class RuleProvider : RuleSetProvider {
 
     override val ruleSetId: String = "extra-rules"
     override fun instance(config: Config): RuleSet  {
-        System.out.println("#########################@@@@@@@@@@@@@@@@@@@@$$$$$$$$$$$$$$$$$$$$$$$$$^^")
+
 
         return RuleSet(ruleSetId, listOf(ContextOrder(config)))
 

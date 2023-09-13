@@ -99,6 +99,7 @@ detekt{
     toolVersion = "1.21.0"
     buildUponDefaultConfig = true
     config = files("$rootDir/config/detekt/detekt.yml")
+    allRules = false
     ignoreFailures = true
 
 }

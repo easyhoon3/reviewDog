@@ -21,7 +21,7 @@ class ContextOrder(config: Config) : Rule(config) {
 
     //Triggers for every function
     override fun visitNamedFunction(function: KtNamedFunction) {
-        System.out.println("############################################$$$$$$$$$$$$$$$$$$$$$$$$$**" + function.name )
+
         super.visitNamedFunction(function)
 
         if (function.name == "save") {
