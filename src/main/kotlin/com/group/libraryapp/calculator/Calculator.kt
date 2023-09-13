@@ -28,6 +28,10 @@ class Calculator(
 
   }
 
+  fun save(){
+
+  }
+
 
   fun save( operand: Int, context: Context){
 
