@@ -1,0 +1,138 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+
+
+    }
+
+
+
+}
+
+
+plugins {
+    id 'org.springframework.boot' version '2.6.8'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    id 'org.jetbrains.kotlin.plugin.jpa' version '1.6.21'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
+    id 'org.jetbrains.kotlin.kapt' version '1.6.21'
+    id 'io.gitlab.arturbosch.detekt' version '1.21.0'
+
+
+}
+
+
+
+
+
+
+
+
+group = 'com.group'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+
+jar {
+    // 기존의 소스 세트를 제거
+    exclude('**/*')
+
+    // 특정 폴더를 추가
+    from('src/main/kotlin/com/group/custom')
+    include('**/*')
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.10'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0'
+
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
+
+    detektPlugins(files("\$rootDir/config/detekt/MyCustomRule.jar"))
+
+
+    File customDetektPlugin = new File("$rootDir/config/detekt/MyCustomRule.jar")
+    if (customDetektPlugin.exists()) {
+        println "The file ${customDetektPlugin.absolutePath} exists."
+    } else {
+        println "The file ${customDetektPlugin.absolutePath} does not exist."
+    }
+
+
+
+
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.gitlab.arturbosch.detekt:detekt-test:1.21.0'
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+
+detekt{
+    toolVersion = "1.21.0"
+    buildUponDefaultConfig = true
+    config = files("$rootDir/config/detekt/detekt.yml")
+}
+
+allprojects{
+    repositories {
+        mavenCentral()
+    }
+
+    afterEvaluate {
+        plugins.apply("io.gitlab.arturbosch.detekt")
+        dependencies {
+            detektPlugins(project(":rules"))
+        }
+
+        def detektTaskProvider = tasks.named("detekt")
+        detektTaskProvider.configure {
+            reports {
+                html.required.set(true)
+                sarif.required.set(false)
+                xml.required.set(false)
+                txt.required.set(false)
+                md.required.set(false)
+                html.outputLocation.set(file("${project.rootDir.absolutePath}/build/reports/detekt/report.html"))
+            }
+        }
+
+        if (project.name == "rules") return
+        tasks.getByName("compileKotlin").finalizedBy(detektTaskProvider)
+
+    }
+
+}
+
+
