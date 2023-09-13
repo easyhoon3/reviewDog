@@ -27,6 +27,6 @@ jobs:
 
       - name: Run reviewdog
         env:
-          REVIEWDOG_GITHUB_API_TOKEN: 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
+          REVIEWDOG_GITHUB_API_TOKEN: "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"
         run: cat ./build/reports/detekt/detekt.xml
           | reviewdog -f=checkstyle -name="detekt" -reporter="github-pr-review" -level="info"
