@@ -13,7 +13,7 @@ class ContextOrder(config: Config) : Rule(config) {
 
     companion object {
 
-        const val REPORT_MESSAGE = "The function name starts with save"
+        const val REPORT_MESSAGE = "The function name to be checked "
         const val ISSUE_DESCRIPTION = "This is a description of the rule"
     }
 
